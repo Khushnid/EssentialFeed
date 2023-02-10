@@ -17,7 +17,7 @@ public protocol HTTPClient {
 }
 
 public final class RemoteFeedLoader {
-    private let url: URL
+    private let   url: URL
     private let client: HTTPClient
     
     public enum Error: Swift.Error {
@@ -39,8 +39,8 @@ public final class RemoteFeedLoader {
         client.get(from: url) { result in
             switch result {
             case let .success(data, _):
-                if let _  = try? JSONSerialization.jsonObject(with: data) {
-                    completion(.success([]))
+                if let root = try? JSONDecoder().decode(Root.self, from: data) {
+                    completion(.success(root.items))
                 } else {
                     completion(.failure(.invalidData))
                 }
@@ -51,3 +51,6 @@ public final class RemoteFeedLoader {
     }
 }
  
+private struct Root: Decodable {
+    let items: [FeedItem]
+}

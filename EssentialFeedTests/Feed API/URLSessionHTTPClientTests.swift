@@ -15,9 +15,15 @@ class URLSessionHTTPClient {
         self.session = session
     }
     
+    struct UnexpectedValueRepresentation: Error {}
+    
     func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
         session.dataTask(with: url) { _, _, error in
-            if let error { completion(.failure(error) )}
+            if let error {
+                completion(.failure(error))
+            } else {
+                completion(.failure(UnexpectedValueRepresentation()))
+            }
         }.resume()
     }
 }
@@ -38,7 +44,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         let exp = expectation(description: "Wait for request")
         
         URLProtocolStub.observeRequests { request in
-            XCTAssertEqual(request.url,  )
+            XCTAssertEqual(request.url,  url)
             XCTAssertEqual(request.httpMethod, "GET")
             exp.fulfill()
         }
@@ -59,6 +65,25 @@ class URLSessionHTTPClientTests: XCTestCase {
                 XCTAssertEqual(recievedError.domain, error.domain)
             default:
                 XCTFail("Expected failure with error \(error), got \(result) instaed")
+            }
+            
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+    }
+    
+    func test_getFromURL_failsOnAllNilValues() {
+        URLProtocolStub.stub(data: nil, response: nil, error: nil)
+        
+        let exp = expectation(description: "Wait for completion")
+        
+        makeSUT().get(from: anyURL()) { result in
+            switch result {
+            case .failure:
+                break
+            default:
+                XCTFail("Expected failure, got \(result) instaed")
             }
             
             exp.fulfill()
@@ -89,7 +114,7 @@ class URLSessionHTTPClientTests: XCTestCase {
             let error: Error?
         }
         
-        static func stub(data: Data?, response: URLResponse?, error: Error) {
+        static func stub(data: Data?, response: URLResponse?, error: Error?) {
             stub = Stub(data: data, response: response, error: error)
         }
         

@@ -79,7 +79,7 @@ class EssentialFeedEndToEndTests: XCTestCase {
     }
     
     private func description(at index: Int) -> String? {
-        return [ 
+        return [
             "Description 1",
             nil,
             "Description 3",

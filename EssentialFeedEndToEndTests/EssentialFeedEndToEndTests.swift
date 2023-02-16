@@ -47,7 +47,7 @@ class EssentialFeedEndToEndTests: XCTestCase {
                                line: UInt = #line) -> LoadFeedResult? {
         var recievedResult: LoadFeedResult?
       
-        let client = URLSessionHTTPClient()
+        let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
         let testServerURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
         let loader = RemoteFeedLoader(url: testServerURL, client: client)
         

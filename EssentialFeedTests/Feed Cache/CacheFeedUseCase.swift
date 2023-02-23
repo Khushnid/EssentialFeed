@@ -129,18 +129,17 @@ final class CacheFeedUseCase: XCTestCase {
     func test_save_failOnInsertionError() {
         let (sut, store) = makeSUT()
         let items = [uniqueItem(), uniqueItem()]
-        let insertionError = anyNSError()
         let exp = expectation(description: "Wait for save completion")
         
         var recievedError: Error?
         
-        sut.save(items) { error in
+        sut.save(items) { error in 
             recievedError = error
             exp.fulfill()
         }
         
         store.completeDeletionSuccessfully()
-        store.completeInsertionSuccessfully(with: insertionError)
+        store.completeInsertionSuccessfully()
         
         wait(for: [exp], timeout: 1.0)
         

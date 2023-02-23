@@ -140,7 +140,7 @@ final class CacheFeedUseCase: XCTestCase {
         }
         
         store.completeDeletionSuccessfully()
-        store.completeInsertionSuccessfully(with: insertionError)
+        store.completeInsertionSuccessfully()
         
         wait(for: [exp], timeout: 1.0)
         

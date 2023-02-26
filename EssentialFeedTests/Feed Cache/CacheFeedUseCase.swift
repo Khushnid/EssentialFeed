@@ -11,25 +11,23 @@ import EssentialFeed
 final class CacheFeedUseCase: XCTestCase {
     
     func test_init_doesNotMessageStoreUponCreation() {
-        let (_ , store) = makeSUT()
+        let (_, store) = makeSUT()
         XCTAssertEqual(store.recievedMessages, [])
     }
     
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
-        let items = [uniqueItem(), uniqueItem() ]
-        
-        sut.save(items) { _ in}
+            
+        sut.save(uniqueItems().models) { _ in }
         
         XCTAssertEqual(store.recievedMessages, [.deleteCachedFeed])
     }
     
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
         let (sut, store) = makeSUT()
-        let items = [uniqueItem(), uniqueItem()]
         let deletionError = anyNSError()
         
-        sut.save(items) { _ in }
+        sut.save(uniqueItems().models) { _ in }
         store.completeDeletion(with: deletionError)
         
         XCTAssertEqual(store.recievedMessages, [.deleteCachedFeed])
@@ -38,13 +36,12 @@ final class CacheFeedUseCase: XCTestCase {
     func test_save_requestsNewCacheInsertionWithTimeStampOnSuccessfullDeletion() {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp  })
-        let items = [uniqueItem(), uniqueItem()]
-        let localItems = items.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL)}
+        let items = uniqueItems()
         
-        sut.save(items) { _ in }
+        sut.save(items.models) { _ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.recievedMessages, [.deleteCachedFeed, .insert(localItems, timestamp)])
+        XCTAssertEqual(store.recievedMessages, [.deleteCachedFeed, .insert(items.local, timestamp)])
     }
     
     func test_save_failOnDeletionError() {
@@ -80,7 +77,7 @@ final class CacheFeedUseCase: XCTestCase {
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store , currentDate: Date.init)
         var recievedResults = [LocalFeedLoader.SaveResult]()
         
-        sut?.save([uniqueItem()], completion: { recievedResults.append($0) })
+        sut?.save(uniqueItems().models, completion: { recievedResults.append($0) })
         
         sut = nil
         store.completeDeletion(with: anyNSError())
@@ -91,9 +88,9 @@ final class CacheFeedUseCase: XCTestCase {
     func test_save_doesNotDeliverInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = FeedStoreSpy()
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
-        var recievedResults = [LocalFeedLoader.SaveResult ]()
+        var recievedResults = [LocalFeedLoader.SaveResult]()
         
-        sut?.save([uniqueItem()], completion: { recievedResults.append($0) })
+        sut?.save(uniqueItems().models, completion: { recievedResults.append($0) })
         store.completeDeletionSuccessfully()
        
         sut = nil
@@ -122,7 +119,7 @@ final class CacheFeedUseCase: XCTestCase {
         let exp = expectation(description: "Wait for save completion")
         var recievedError: Error?
         
-        sut.save([uniqueItem()]) { error in
+        sut.save(uniqueItems().models) { error in
             recievedError = error
             exp.fulfill()
         }
@@ -171,8 +168,14 @@ final class CacheFeedUseCase: XCTestCase {
         }
     }
     
-    private func uniqueItem() -> FeedItem {
-        return FeedItem(id: UUID(), description: "a description", location: "a location", imageURL: anyURL())
+    private func uniqueItems() -> (models: [FeedItem], local: [LocalFeedItem]) {
+        let models = [uniqueItem(), uniqueItem()]
+        let local = models.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL)}
+        return (models, local)
+        
+        func uniqueItem() -> FeedItem {
+            return FeedItem(id: UUID(), description: "a description", location: "a location", imageURL: anyURL())
+        }
     }
     
     private func anyURL() -> URL {

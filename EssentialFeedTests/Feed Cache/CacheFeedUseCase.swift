@@ -139,7 +139,7 @@ final class CacheFeedUseCase: XCTestCase {
             return FeedImage(id: UUID(), description: "a description", location: "a location", url: anyURL())
         }
     }
-    
+
     private func anyURL() -> URL {
         URL(string: "https://any-url.com")!
     }

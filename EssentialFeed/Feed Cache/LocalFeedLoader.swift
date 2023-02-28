@@ -10,9 +10,9 @@ import Foundation
 public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
+    private static let maxCacheAgeInDays = 7
     private let calendar = Calendar(identifier: .gregorian)
     
-    static let maxCacheAgeInDays = 7
     
     public typealias SaveResult = Error?
     public typealias LoadResult = LoadFeedResult

@@ -14,4 +14,3 @@ func anyURL() -> URL {
 func anyNSError() -> NSError {
     NSError(domain: "Any Error", code: 0)
 }
-

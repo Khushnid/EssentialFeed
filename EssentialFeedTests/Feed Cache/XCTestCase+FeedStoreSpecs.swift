@@ -8,7 +8,7 @@
 import XCTest
 import EssentialFeed
 
-extension FailableInsertFeedStoreSpecs where Self: XCTestCase {
+extension FeedStoreSpecs where Self: XCTestCase {
      func assertThatInsertDeliversErrorOnInsertionError(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
          let insertionError = insert((uniqueImageFeed().local, Date()), to: sut)
 
@@ -22,7 +22,7 @@ extension FailableInsertFeedStoreSpecs where Self: XCTestCase {
      }
  }
 
-extension FailableRetrieveFeedStoreSpecs where Self: XCTestCase {
+extension FeedStoreSpecs where Self: XCTestCase {
      func assertThatRetrieveDeliversFailureOnRetrievalError(on sut: FeedStore, file: StaticString = #file, line: UInt = #line) {
          expect(sut, toRetrieve: .failure(anyNSError()), file: file, line: line)
      }

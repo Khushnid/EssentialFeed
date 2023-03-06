@@ -15,6 +15,7 @@
 		E201336A29927168006CC385 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E201336929927168006CC385 /* RemoteFeedLoader.swift */; };
 		E20BE4AF29B5AA02005F439F /* CoreDataFeedStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20BE4AE29B5AA02005F439F /* CoreDataFeedStoreTests.swift */; };
 		E20BE4B129B5AA9F005F439F /* CoreDataFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20BE4B029B5AA9F005F439F /* CoreDataFeedStore.swift */; };
+		E20BE4B829B5AEED005F439F /* FeedStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E20BE4B629B5AEED005F439F /* FeedStore.xcdatamodeld */; };
 		E20DFAB529B1C8C600298590 /* CodableFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20DFAB429B1C8C600298590 /* CodableFeedStore.swift */; };
 		E20DFAB729B20B8E00298590 /* FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20DFAB629B20B8E00298590 /* FeedStoreSpecs.swift */; };
 		E20DFAB929B21DA800298590 /* XCTestCase+FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20DFAB829B21DA800298590 /* XCTestCase+FeedStoreSpecs.swift */; };
@@ -67,6 +68,7 @@
 		E201336929927168006CC385 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		E20BE4AE29B5AA02005F439F /* CoreDataFeedStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFeedStoreTests.swift; sourceTree = "<group>"; };
 		E20BE4B029B5AA9F005F439F /* CoreDataFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFeedStore.swift; sourceTree = "<group>"; };
+		E20BE4B729B5AEED005F439F /* FeedStore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FeedStore.xcdatamodel; sourceTree = "<group>"; };
 		E20DFAB429B1C8C600298590 /* CodableFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStore.swift; sourceTree = "<group>"; };
 		E20DFAB629B20B8E00298590 /* FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpecs.swift; sourceTree = "<group>"; };
 		E20DFAB829B21DA800298590 /* XCTestCase+FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedStoreSpecs.swift"; sourceTree = "<group>"; };
@@ -180,6 +182,14 @@
 			path = "Feed API";
 			sourceTree = "<group>";
 		};
+		E20BE4B229B5AD44005F439F /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				E20BE4B629B5AEED005F439F /* FeedStore.xcdatamodeld */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
 		E254DDB1299A48E000307E98 /* Feed API */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +215,7 @@
 		E266240B29A278DC004F1CBA /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				E20BE4B229B5AD44005F439F /* Infrastructure */,
 				E2C2940929ABADB600098D01 /* Helpers */,
 				E266240C29A27934004F1CBA /* CacheFeedUseCase.swift */,
 				E2C2940729ABA9D600098D01 /* LoadFeedFromCacheUseCaseTests.swift */,
@@ -407,6 +418,7 @@
 				E2E367A629ADA03900B63747 /* FeedCacheTestHelpers.swift in Sources */,
 				E2C0578A29ACD8B3004D142C /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				E201336729923B4D006CC385 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
+				E20BE4B829B5AEED005F439F /* FeedStore.xcdatamodeld in Sources */,
 				E2A11E26299CA2BA00945924 /* XCTestCase+MemoryLeakDetector.swift in Sources */,
 				E2C2940B29AC490B00098D01 /* FeedStoreSpy.swift in Sources */,
 				E2E367A829ADA11700B63747 /* SharedTestHelpers.swift in Sources */,
@@ -723,6 +735,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E20BE4B629B5AEED005F439F /* FeedStore.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E20BE4B729B5AEED005F439F /* FeedStore.xcdatamodel */,
+			);
+			currentVersion = E20BE4B729B5AEED005F439F /* FeedStore.xcdatamodel */;
+			path = FeedStore.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E2013340299130A2006CC385 /* Project object */;
 }

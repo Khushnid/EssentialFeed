@@ -117,16 +117,24 @@ final class CacheFeedUseCase: XCTestCase {
                         line: UInt = #line) {
         
         let exp = expectation(description: "Wait for save completion")
-        var recievedError: Error?
+        var receivedError: Error?
         
-        sut.save(uniqueImageFeed().models) { error in
-            recievedError = error
+        sut.save(uniqueImageFeed().models) { saveResult in
+            switch saveResult {
+                
+            case .success:
+                break
+                
+            case let .failure(error):
+                receivedError = error
+            }
+            
             exp.fulfill()
         }
         
         action()
         wait(for: [exp], timeout: 1.0)
         
-        XCTAssertEqual(recievedError as NSError?, expectedError, file: file, line: line)
+        XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
 }

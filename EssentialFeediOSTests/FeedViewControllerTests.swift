@@ -6,8 +6,8 @@
 //
 
 import XCTest
-import UIKit
 import EssentialFeed
+import UIKit
 
 final class FeedViewController: UIViewController {
     private var loader: FeedLoader?

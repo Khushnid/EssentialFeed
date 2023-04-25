@@ -47,18 +47,17 @@ final class FeedPresenter {
     
     
     func didStartLoadingFeed() {
-        errorView.display(FeedErrorViewModel(message: nil))
+        errorView.display(.noError)
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
-    func didFinishLoadingFeed(with feed: [FeedImage]) {
-        errorView.display(FeedErrorViewModel(message: FeedPresenter.feedLoadError))
-        feedView.display(FeedViewModel(feed: feed))
+    func didFinishLoadingFeed(with error: Error) {
+        errorView.display(.error(message: FeedPresenter.feedLoadError))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
     
-    func didFinishLoadingFeed(with error: Error) {
-        errorView.display(FeedErrorViewModel(message: FeedPresenter.feedLoadError))
+    func didFinishLoadingFeed(with feed: [FeedImage]) {
+        feedView.display(FeedViewModel(feed: feed))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
 }

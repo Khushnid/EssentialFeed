@@ -11,10 +11,6 @@ protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
-public final class ErrorView: UIView {
-    public var message: String?
-}
-
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     var delegate: FeedViewControllerDelegate?
     

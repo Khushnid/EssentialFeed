@@ -5,8 +5,8 @@
 //  Created by Khushnidjon on 16/03/23.
 //
 
-import EssentialFeed
 import UIKit
+import EssentialFeed
 
 protocol FeedImageCellControllerDelegate {
     func didRequestImage()
